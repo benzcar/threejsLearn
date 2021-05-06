@@ -41,10 +41,19 @@
     
     /**
      * 光源设置 从一个点向各个方向发射的光源。一个常见的例子是模拟一个灯泡发出的光
+     * AmbientLight	环境光
+     * PointLight	点光源
+     * DirectionalLight	平行光，比如太阳光
+     * SpotLight	聚光源
      */
-    var point = new THREE.PointLight(0xffffff); //点光源
+    //点光源
+    var point = new THREE.PointLight(0xffffff); 
     point.position.set(400, 200, 300); //点光源位置
     scene.add(point); //点光源添加到场景中
+    // 点光源2  位置和point关于原点对称
+    // var point2 = new THREE.PointLight(0xffffff);
+    // point2.position.set(-400, -200, -300); //点光源位置
+    // scene.add(point2); //点光源添加到场景中
 
     //环境光： 环境光会均匀的照亮场景中的所有物体
     var ambient = new THREE.AmbientLight(0x444444);
@@ -72,8 +81,21 @@
     renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
     document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
     
-    //执行渲染操作   指定场景、相机作为参数
-    renderer.render(scene, camera);
+    // 1 渲染函数 转起来
+  	// function render() {
+  	//     renderer.render(scene,camera);//执行渲染操作
+  	//     mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
+  	// }
+  	// //间隔20ms周期性调用函数fun,20ms也就是刷新频率是50FPS(1s/20ms)，每秒渲染50次
+  	// setInterval(render,20)
+	
+    // 2 渲染函数 转起来
+    function render() {
+      renderer.render(scene,camera);//执行渲染操作
+      mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
+      requestAnimationFrame(render);//请求再次执行渲染函数render
+    }
+  	render();
   </script>
 </body>
 </html>

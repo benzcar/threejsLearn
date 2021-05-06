@@ -13,6 +13,8 @@
   </style>
   <!--引入three.js三维引擎-->
   <script src="./tool/three.js"></script>
+  <!-- 控件支持鼠标左中右键操作和键盘方向键操作 -->
+  <script src="./tool/OrbitControls.js"></script>
 </head>
 
 <body>
@@ -73,7 +75,16 @@
     document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
     
     //执行渲染操作   指定场景、相机作为参数
-    renderer.render(scene, camera);
+    function render() {
+    renderer.render(scene,camera);//执行渲染操作
+        // mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
+        requestAnimationFrame(render);//请求再次执行渲染函数render
+    }
+    render();
+    var controls = new THREE.OrbitControls(camera);//创建控件对象
+    // 已经通过requestAnimationFrame(render);周期性执行render函数，没必要再通过监听鼠标事件执行render函数
+    // controls.addEventListener('change', render)
+
   </script>
 </body>
 </html>

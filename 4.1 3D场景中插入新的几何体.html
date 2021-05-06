@@ -32,7 +32,20 @@
     * 3 new THREE.Mesh(geometry, material); //网格模型对象Mesh
     * 4 scene.add(mesh); //网格模型添加到场景中
     */
-    var geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
+
+    //长方体 参数：长，宽，高
+    // var geometry = new THREE.BoxGeometry(100, 100, 100);
+    // 球体 参数：半径60  经纬度细分数40,40
+    var geometry = new THREE.SphereGeometry(60, 40, 40);
+    // 圆柱  参数：圆柱面顶部、底部直径50,50   高度100  圆周分段数
+    // var geometry = new THREE.CylinderGeometry( 50, 50, 100, 25 );
+    // 正八面体
+    // var geometry = new THREE.OctahedronGeometry(50);
+    // 正十二面体
+    // var geometry = new THREE.DodecahedronGeometry(50);
+    // 正二十面体
+    // var geometry = new THREE.IcosahedronGeometry(50);
+
     var material = new THREE.MeshLambertMaterial({
       color: 0x0000ff
     }); //材质对象Material
