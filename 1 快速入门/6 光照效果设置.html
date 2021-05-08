@@ -12,7 +12,7 @@
     }
   </style>
   <!--引入three.js三维引擎-->
-  <script src="./tool/three.js"></script>
+  <script src="../tool/three.js"></script>
 </head>
 
 <body>
@@ -32,39 +32,28 @@
     * 3 new THREE.Mesh(geometry, material); //网格模型对象Mesh
     * 4 scene.add(mesh); //网格模型添加到场景中
     */
-    // 立方体网格模型
-    var geometry1 = new THREE.BoxGeometry(100, 100, 100);
-    var material1 = new THREE.MeshLambertMaterial({
-        color: 0x0000ff
+    var geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
+    var material = new THREE.MeshLambertMaterial({
+      color: 0x0000ff
     }); //材质对象Material
-    var mesh1 = new THREE.Mesh(geometry1, material1); //网格模型对象Mesh
-    scene.add(mesh1); //网格模型添加到场景中
-
-    // 球体网格模型
-    var geometry2 = new THREE.SphereGeometry(60, 40, 40);
-    var material2 = new THREE.MeshLambertMaterial({
-        color: 0xff00ff
-    });
-    var mesh2 = new THREE.Mesh(geometry2, material2); //网格模型对象Mesh
-    mesh2.translateY(100); //球体网格模型沿Y轴正方向平移120
-    scene.add(mesh2);
-
-    // 圆柱网格模型
-    var geometry3 = new THREE.CylinderGeometry(50, 50, 100, 25);
-    var material3 = new THREE.MeshLambertMaterial({
-        color: 0xffff00
-    });
-    var mesh3 = new THREE.Mesh(geometry3, material3); //网格模型对象Mesh
-    // mesh3.translateX(120); //球体网格模型沿Y轴正方向平移120
-    mesh3.position.set(120,0,0);//设置mesh3模型对象的xyz坐标为120,0,0
-    scene.add(mesh3); //
+    var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+    scene.add(mesh); //网格模型添加到场景中
     
     /**
      * 光源设置 从一个点向各个方向发射的光源。一个常见的例子是模拟一个灯泡发出的光
+     * AmbientLight	环境光
+     * PointLight	点光源
+     * DirectionalLight	平行光，比如太阳光
+     * SpotLight	聚光源
      */
-    var point = new THREE.PointLight(0xffffff); //点光源
+    //点光源
+    var point = new THREE.PointLight(0xffffff); 
     point.position.set(400, 200, 300); //点光源位置
     scene.add(point); //点光源添加到场景中
+    // 点光源2  位置和point关于原点对称
+    // var point2 = new THREE.PointLight(0xffffff);
+    // point2.position.set(-400, -200, -300); //点光源位置
+    // scene.add(point2); //点光源添加到场景中
 
     //环境光： 环境光会均匀的照亮场景中的所有物体
     var ambient = new THREE.AmbientLight(0x444444);
@@ -92,8 +81,21 @@
     renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
     document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
     
-    //执行渲染操作   指定场景、相机作为参数
-    renderer.render(scene, camera);
+    // 1 渲染函数 转起来
+  	// function render() {
+  	//     renderer.render(scene,camera);//执行渲染操作
+  	//     mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
+  	// }
+  	// //间隔20ms周期性调用函数fun,20ms也就是刷新频率是50FPS(1s/20ms)，每秒渲染50次
+  	// setInterval(render,20)
+	
+    // 2 渲染函数 转起来
+    function render() {
+      renderer.render(scene,camera);//执行渲染操作
+      mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
+      requestAnimationFrame(render);//请求再次执行渲染函数render
+    }
+  	render();
   </script>
 </body>
 </html>
